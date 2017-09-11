@@ -69,5 +69,3 @@ typings/
 
 # ide
 .idea
-dist
-.tmp

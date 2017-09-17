@@ -5,7 +5,12 @@ export default class Feedback extends Component {
 
     render() {
         return (
-            <div>Feedback</div>
+            <div className="content--box">
+                <div className="content--title">Відгуки</div>
+                <section>
+
+                </section>
+            </div>
         )
     }
 }

@@ -1,0 +1,31 @@
+.news {
+
+    &--article {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ECECEC;
+
+        &:last-child {
+            border: none;
+            padding-bottom: 5px;
+        }
+
+        & img {
+            width: 100%;
+        }
+    }
+
+    &--title {
+        font-size: 1.3em;
+        margin: 20px 0;
+    }
+
+    &--link {
+        color: #44b0d7;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

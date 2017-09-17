@@ -5,7 +5,12 @@ export default class Admin extends Component {
 
     render() {
         return (
-            <div>Admin</div>
+            <div className="content--box">
+                <div className="content--title">Додати новину</div>
+                <section>
+
+                </section>
+            </div>
         )
     }
 }

@@ -19,9 +19,9 @@ export default class App extends PureComponent {
                                 <Icon name="news"/>
                                 <span>Новини</span>
                             </Link>
-                            <Link to="/student" className="header--link-box">
+                            <Link to="/schedule" className="header--link-box">
                                 <Icon name="student"/>
-                                <span>Студентам</span>
+                                <span>Карта курсів</span>
                             </Link>
                             <Link to="/feedback" className="header--link-box">
                                 <Icon name="feedback"/>

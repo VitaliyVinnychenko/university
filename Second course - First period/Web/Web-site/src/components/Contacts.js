@@ -5,7 +5,12 @@ export default class Contacts extends Component {
 
     render() {
         return (
-            <div>Contacts</div>
+            <div className="content--box">
+                <div className="content--title">Контакти</div>
+                <section>
+
+                </section>
+            </div>
         )
     }
 }

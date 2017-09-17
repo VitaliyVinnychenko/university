@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans|Open+Sans+Condensed:300|Roboto:300,400&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400&subset=cyrillic');
 
 
-$mainFont: 'Noto Sans', Helvetica, Arial, Tahoma, Verdana, sans-serif;
+$mainFont: 'Roboto', Helvetica, Arial, Tahoma, Verdana, sans-serif;
 
 
 html {
@@ -257,6 +257,8 @@ th {
     box-sizing: border-box;
 }
 
-#globalWrapper {
+#root {
     position: relative;
+    min-height: 100vh;
+    background: #F6F6F6;
 }

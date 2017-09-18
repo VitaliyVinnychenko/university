@@ -1,0 +1,72 @@
+.create-article-form {
+    display: flex;
+    flex-direction: column;
+
+    &--row {
+        height: 40px;
+        margin-bottom: 15px;
+        display: flex;
+    }
+
+    & input {
+        margin-bottom: 20px;
+    }
+
+    & input[type=submit] {
+        display: block;
+        width: 100%;
+        height: 40px;
+        border-radius: 5px;
+        background: #44b0d7;
+        color: #ffffff;
+        text-align: center;
+        line-height: 39px;
+        text-transform: uppercase;
+        outline: none;
+        border: none;
+
+        &:hover {
+            background: #3b9bbe;
+        }
+    }
+
+    & input[type="file"] {
+        display: none;
+    }
+
+    & input[type=text] {
+        width: 73%;
+        margin-right: 2%;
+        height: 35px;
+        border: 1px solid #dedede;
+        padding: 0 15px;
+        border-radius: 5px;
+        outline: none;
+    }
+
+    & textarea {
+        margin-bottom: 20px;
+        resize: none;
+        height: 200px;
+        border-radius: 5px;
+        padding: 8px;
+        border: 1px solid #dedede;
+        outline: none;
+    }
+}
+
+.custom-file-upload {
+    width: 25%;
+    height: 35px;
+    border-radius: 5px;
+    background: #44b0d7;
+    color: #ffffff;
+    text-align: center;
+    line-height: 35px;
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+        background: #3b9bbe;
+    }
+}

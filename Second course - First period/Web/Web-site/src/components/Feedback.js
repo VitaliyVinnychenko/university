@@ -9,7 +9,7 @@ export default class Feedback extends Component {
                 <div className="content--title">Відгуки</div>
                 <div className="feedback--input-form-wrapper">
                     <form className="feedback--input-form">
-                        <div className="feedback--input-form-title">Оформити відгук:</div>
+                        <div className="feedback--input-form-title">Оформити відгук</div>
                         <input type="text" placeholder="Ваше ім'я" />
                         <textarea placeholder="Опишіть свої враження"></textarea>
                         <input className="fade-animation" type="submit" value="Надіслати відгук" />

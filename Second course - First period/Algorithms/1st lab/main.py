@@ -54,9 +54,11 @@ def quicksort(input_array, left, right):
             j = j - 1
 
         quicksort_compares = quicksort_compares + 1
+
         if i <= j:
             quicksort_exchanges = quicksort_exchanges + 1
             input_array[i], input_array[j] = input_array[j], input_array[i]
+
             i = i + 1
             j = j - 1
 
@@ -83,7 +85,7 @@ def main():
         quicksort_start_time = time.time()
         quicksort(array, 0, len(array) - 1)
 
-        qs_info = (round((time.time() - quicksort_start_time) * 1000, 2), quicksort_compares, quicksort_exchanges)
+        qs_info = (round((time.time() - quicksort_start_time) * 1000, 3), quicksort_compares, quicksort_exchanges)
 
         print('----------------------------------------------------------------------------')
         print('| Insertion: {} - time (ms), {} - compares, {} - exchanges'.format(*insertion_info))

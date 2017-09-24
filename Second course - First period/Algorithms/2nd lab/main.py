@@ -7,6 +7,8 @@ def get_input_array():
     if len(args) == 2 and args[0] == '-input':
         return [int(i) for i in open(args[1], 'r').read().split(' ')]
 
+    return None
+
 
 def quicksort(input_array, left, right):
 

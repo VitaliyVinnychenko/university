@@ -13,10 +13,11 @@ export default class Admin extends Component {
                             <input type="text" placeholder="Заголовок" />
                             <label className="custom-file-upload fade-animation">
                                 <input type="file" accept="image/*" />
-                                Додати зображення
+                                <span>Додати зображення</span>
                             </label>
                         </div>
-                        <textarea placeholder="Стаття"></textarea>
+                        <textarea className="short" placeholder="Короткий опис новини"></textarea>
+                        <textarea className="full" placeholder="Довгий опис новини"></textarea>
                         <input className="fade-animation" type="submit" value="Опублікувати новину" />
                     </form>
                 </section>

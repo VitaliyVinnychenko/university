@@ -5,6 +5,10 @@
         flex-direction: column;
         width: 500px;
 
+        @media screen and (max-width: 525px) {
+            padding: 0 10px;
+        }
+
         &-title {
             font-size: 1.25em;
             margin: 7px 0 25px 0;
@@ -62,6 +66,10 @@
 
     &--content {
         padding: 0 50px !important;
+
+        @media screen and (max-width: 525px) {
+            padding: 0 10px !important;
+        }
     }
 
     &--item {

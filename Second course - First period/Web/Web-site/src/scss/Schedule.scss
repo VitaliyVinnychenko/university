@@ -27,11 +27,16 @@
 
     &--row {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         margin-bottom: 5px;
-        height: 40px;
+        height: 80px;
         line-height: 40px;
         background: #eeeeee;
+
+        @media screen and (min-width: 600px) {
+            flex-direction: row;
+            height: 40px;
+        }
 
         &:last-child {
             margin: 0;
@@ -40,19 +45,30 @@
         &-item {
 
             &:first-child {
-                width: 85%;
                 padding: 0 15px;
-                border-right: 5px solid #ffffff;
                 height: 100%;
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 overflow: hidden;
+
+                @media screen and (min-width: 600px) {
+                    width: 85%;
+                    border-right: 5px solid #ffffff;
+                }
+
+                @media screen and (max-width: 599px) {
+                    border-bottom: 1px solid #dddddd;
+                    text-align: center;
+                }
             }
 
             &:last-child {
                 text-align: center;
                 height: 100%;
-                width: 15%;
+
+                @media screen and (min-width: 600px) {
+                    width: 15%;
+                }
             }
         }
     }

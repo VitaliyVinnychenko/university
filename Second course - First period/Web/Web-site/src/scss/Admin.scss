@@ -39,7 +39,7 @@
         margin-right: 2%;
         height: 35px;
         border: 1px solid #dedede;
-        padding: 0 15px;
+        padding: 0 12px;
         border-radius: 5px;
         outline: none;
     }
@@ -47,11 +47,18 @@
     & textarea {
         margin-bottom: 20px;
         resize: none;
-        height: 200px;
         border-radius: 5px;
-        padding: 8px;
+        padding: 7px 12px;
         border: 1px solid #dedede;
         outline: none;
+
+        &.short {
+            height: 125px;
+        }
+
+        &.full {
+            height: 250px;
+        }
     }
 }
 

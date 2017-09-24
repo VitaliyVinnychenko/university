@@ -19,10 +19,15 @@ export default class App extends PureComponent {
                                 <Icon name="news"/>
                                 <span>Новини</span>
                             </Link>
-                            <Link to="/schedule" className="header--link-box">
+                            <div className="header--link-box">
                                 <Icon name="student"/>
-                                <span>Карта курсів</span>
-                            </Link>
+                                <span>Студентам</span>
+                                <div className="floating-list">
+                                    <Link to="/schedule">Карта курсів</Link>
+                                    <Link to="/schedule">Навчальний план</Link>
+                                    <Link to="/schedule">Лабораторні</Link>
+                                </div>
+                            </div>
                             <Link to="/feedback" className="header--link-box">
                                 <Icon name="feedback"/>
                                 <span>Відгуки</span>
@@ -39,6 +44,11 @@ export default class App extends PureComponent {
                     </div>
                 </header>
                 <section className="content--wrapper">{ this.props.children }</section>
+                <footer className="footer--wrapper">
+                    <div className="footer--box">
+                        <span>Copyright &copy; 2017 &mdash; Vitaliy Vinnychenko</span>
+                    </div>
+                </footer>
             </main>
         )
     }

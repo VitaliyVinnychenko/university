@@ -6,9 +6,13 @@
 
     &--map {
         height: 300px;
-        margin-top: 20px;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        margin-top: 5px;
+
+        @media screen and (min-width: 900px) {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            margin-top: 20px;
+        }
     }
 
     &--content {
@@ -26,6 +30,15 @@
 
             &:first-child {
                 padding-top: 10px;
+            }
+
+            @media screen and (max-width: 899px) {
+                padding: 15px 10px 0 10px;
+
+
+                &:first-child {
+                    padding-top: 0;
+                }
             }
 
             & a {

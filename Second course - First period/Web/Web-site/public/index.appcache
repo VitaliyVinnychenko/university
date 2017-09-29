@@ -1,5 +1,4 @@
 CACHE MANIFEST
-
 index.html
 index.min.css
 static/js/bundle.js
@@ -7,9 +6,10 @@ images/sprite.svg
 
 
 NETWORK:
+text.html
 images/1.jpg
 images/2.png
 
 
 FALLBACK:
-. error.html
+/ /error.html

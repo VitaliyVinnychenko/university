@@ -1,21 +1,32 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 import Icon from './Icon';
 
-export default class App extends PureComponent {
+export default class App extends Component {
+
+    onMenuButtonClick() {
+        if (this.refs.nav.classList.contains('visible')) {
+            this.refs.nav.classList.remove('visible');
+        } else {
+            this.refs.nav.classList.add('visible');
+        }
+    }
 
     render() {
         return (
             <main>
                 <header className="header--wrapper">
                     <div className="header--container">
-                        <nav className="header--navigation">
-                            <Link to="/" className="header--link-box">
+                        <div className="menu-button" onClick={ this.onMenuButtonClick.bind(this) }>
+                            <Icon name="menu"/>
+                        </div>
+                        <nav className="header--navigation" ref="nav">
+                            <Link to="/" className="header--link-box" onClick={ this.onMenuButtonClick.bind(this) }>
                                 <Icon name="home"/>
                                 <span>Головна</span>
                             </Link>
-                            <Link to="/news" className="header--link-box">
+                            <Link to="/news" className="header--link-box" onClick={ this.onMenuButtonClick.bind(this) }>
                                 <Icon name="news"/>
                                 <span>Новини</span>
                             </Link>
@@ -25,20 +36,20 @@ export default class App extends PureComponent {
                                     <span>Студентам</span>
                                 </div>
                                 <div className="floating-list">
-                                    <Link to="/schedule">Карта курсів</Link>
-                                    <Link to="/schedule">Навчальний план</Link>
+                                    <Link to="/schedule" onClick={ this.onMenuButtonClick.bind(this) }>Карта курсів</Link>
+                                    <Link to="/schedule" onClick={ this.onMenuButtonClick.bind(this) }>Навчальний план</Link>
                                     <a href="/text.html">Лабораторні</a>
                                 </div>
                             </div>
-                            <Link to="/feedback" className="header--link-box">
+                            <Link to="/feedback" className="header--link-box" onClick={ this.onMenuButtonClick.bind(this) }>
                                 <Icon name="feedback"/>
                                 <span>Відгуки</span>
                             </Link>
-                            <Link to="/contacts" className="header--link-box">
+                            <Link to="/contacts" className="header--link-box" onClick={ this.onMenuButtonClick.bind(this) }>
                                 <Icon name="contacts"/>
                                 <span>Контакти</span>
                             </Link>
-                            <Link to="/admin" className="header--link-box">
+                            <Link to="/admin" className="header--link-box" onClick={ this.onMenuButtonClick.bind(this) }>
                                 <Icon name="admin"/>
                                 <span>Адмін</span>
                             </Link>

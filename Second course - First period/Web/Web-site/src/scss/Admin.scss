@@ -77,3 +77,12 @@
         background: #3b9bbe;
     }
 }
+
+#imagePreview {
+    margin-bottom: 15px;
+    border-radius: 5px;
+
+    &[src='#'] {
+        margin-bottom: 0;
+    }
+}

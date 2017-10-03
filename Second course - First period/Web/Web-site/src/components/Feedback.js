@@ -3,17 +3,35 @@ import React, { Component } from 'react';
 
 export default class Feedback extends Component {
 
+    validateFeedbackForm() {
+        const { name, text } = this.refs;
+
+        if (name.value.trim().length !== 0 && text.value.trim().length !== 0) {
+            this.refs.name.value = this.refs.text.value = '';
+            alert('Надіслано');
+        } else {
+            alert('Заповніть усі поля!');
+        }
+    }
+
     render() {
+        const SUBMIT_BUTTON_PROPS = {
+            className: 'fade-animation',
+            type: 'submit',
+            value: 'Надіслати відгук',
+            onClick: this.validateFeedbackForm.bind(this)
+        };
+
         return (
             <div className="content--box">
                 <div className="content--title">Відгуки</div>
                 <div className="feedback--input-form-wrapper">
-                    <form className="feedback--input-form">
+                    <div className="feedback--input-form">
                         <div className="feedback--input-form-title">Оформити відгук</div>
-                        <input type="text" placeholder="Ваше ім'я" />
-                        <textarea placeholder="Опишіть свої враження"></textarea>
-                        <input className="fade-animation" type="submit" value="Надіслати відгук" />
-                    </form>
+                        <input ref="name" type="text" placeholder="Ваше ім'я" />
+                        <textarea ref="text" placeholder="Опишіть свої враження"></textarea>
+                        <input { ...SUBMIT_BUTTON_PROPS } />
+                    </div>
                 </div>
                 <section className="feedback--content">
                     <article className="feedback--item">

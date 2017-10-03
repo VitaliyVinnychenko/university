@@ -6,11 +6,22 @@ import Icon from './Icon';
 export default class App extends Component {
 
     onMenuButtonClick() {
+        
         if (this.refs.nav.classList.contains('visible')) {
             this.refs.nav.classList.remove('visible');
         } else {
             this.refs.nav.classList.add('visible');
         }
+    }
+
+    componentDidMount() {
+        window.addEventListener('online', () => console.log('ONLINE'));
+        window.addEventListener('offline', () => console.log('OFFLINE'));
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('online', () => console.log('ONLINE'));
+        window.removeEventListener('offline', () => console.log('OFFLINE'));
     }
 
     render() {

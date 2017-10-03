@@ -4,6 +4,7 @@ CACHE:
 index.html
 static/js/bundle.js
 index.min.css
+error.html
 
 NETWORK:
 /images/1.jpg

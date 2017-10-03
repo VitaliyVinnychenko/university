@@ -1,25 +1,90 @@
 import React, { Component } from 'react';
 
+import { addFeedback } from '../helpers/feedback';
+import { isOnline, setZeroBefore, getAllItems } from '../helpers/index';
+
 
 export default class Feedback extends Component {
 
-    validateFeedbackForm() {
-        const { name, text } = this.refs;
-
-        if (name.value.trim().length !== 0 && text.value.trim().length !== 0) {
-            this.refs.name.value = this.refs.text.value = '';
-            alert('Надіслано');
-        } else {
-            alert('Заповніть усі поля!');
-        }
+    formIsValidated({ name, text }) {
+        return name.value.trim().length !== 0 && text.value.trim().length !== 0;
     }
+
+    sendFeedback() {
+
+        if (!this.formIsValidated(this.refs)) {
+            alert('Заповніть усі поля!');
+            return null;
+        }
+
+        const { text, name } = this.refs;
+
+        if (!isOnline()) {
+            console.log('N/A');
+        } else {
+            addFeedback({
+                text: text.value.trim(),
+                name: name.value.trim()
+            });
+        }
+
+        this.refs.name.value = this.refs.text.value = '';
+        alert('Відгук успішно надіслано');
+
+        this.forceUpdate();
+    }
+
+
+    dateToString(date) {
+        date = new Date(date);
+
+        const day = setZeroBefore(date.getDay());
+        const month = setZeroBefore(date.getMonth());
+        const year = date.getFullYear();
+
+        const hours = setZeroBefore(date.getHours());
+        const minutes = setZeroBefore(date.getMinutes());
+
+        return `${ day }.${ month }.${ year } ${ hours }:${ minutes }`;
+    }
+
+
+    renderFeedbackList() {
+        let feedbackList = getAllItems('feedback');
+
+        if (feedbackList === null) {
+            return null;
+        }
+
+        return (
+            <section className="feedback--content">
+                { feedbackList.items.reverse().map(item => this.renderFeedbackItem(item)) }
+            </section>
+        )
+    }
+
+
+    renderFeedbackItem({ name, text, date }) {
+        date = this.dateToString(date);
+
+        return (
+            <article className="feedback--item">
+                <div className="feedback--top-panel">
+                    <span className="feedback--title">{ name }</span>
+                    <span className="feedback--date">{ date }</span>
+                </div>
+                <p>{ text }</p>
+            </article>
+        )
+    }
+
 
     render() {
         const SUBMIT_BUTTON_PROPS = {
             className: 'fade-animation',
             type: 'submit',
             value: 'Надіслати відгук',
-            onClick: this.validateFeedbackForm.bind(this)
+            onClick: this.sendFeedback.bind(this)
         };
 
         return (
@@ -33,30 +98,7 @@ export default class Feedback extends Component {
                         <input { ...SUBMIT_BUTTON_PROPS } />
                     </div>
                 </div>
-                <section className="feedback--content">
-                    <article className="feedback--item">
-                        <div className="feedback--top-panel">
-                            <span className="feedback--title">Вася Пупкін</span>
-                            <span className="feedback--date">11.11.2017 14:39</span>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    </article>
-                    <article className="feedback--item">
-                        <div className="feedback--top-panel">
-                            <span className="feedback--title">Вася Пупкін</span>
-                            <span className="feedback--date">11.11.2017 14:39</span>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    </article>
-                </section>
+                { this.renderFeedbackList() }
             </div>
         )
     }

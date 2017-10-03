@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
 
+import { isOnline } from '../helpers/index';
+import { addArticle } from '../helpers/news';
+
 
 export default class Admin extends Component {
 
-    validateArticleForm() {
-        const { title, fullText, shortText, image } = this.refs;
+    formIsValidated({ title, fullText, shortText, image }) {
+        const FIRST_CASE = title.value.trim().length !== 0 && fullText.value.trim().length !== 0;
+        const SECOND_CASE = shortText.value.trim().length !== 0 && image.files && image.files[0];
 
-        if (
-            title.value.trim().length != 0 && fullText.value.trim().length != 0
-            && shortText.value.trim().length != 0 && image.files && image.files[0]
-        ) {
-            this.refs.title.value = this.refs.shortText.value = this.refs.fullText.value = '';
-            this.refs.imagePreview.setAttribute('src', '#');
-            alert('Статтю успішно опубліковано!');
-        } else {
-            alert('Заповніть усі поля!');
-        }
+        return FIRST_CASE && SECOND_CASE;
     }
+
 
     changeImagePreview() {
         const { image } = this.refs;
@@ -25,6 +21,7 @@ export default class Admin extends Component {
             let reader = new FileReader();
 
             reader.addEventListener('load', e => {
+                console.log(e);
                 this.refs.imagePreview.setAttribute('src', e.target.result);
             });
 
@@ -32,12 +29,42 @@ export default class Admin extends Component {
         }
     }
 
+
+    sendArticle() {
+
+        if (!this.formIsValidated(this.refs)) {
+            alert('Заповніть усі поля!');
+            return null;
+        }
+
+        const { title, fullText, shortText, image } = this.refs;
+
+        if (!isOnline()) {
+            console.log('N/A');
+        } else {
+            console.log(image.files[0]);
+
+            addArticle({
+                title: title.value.trim(),
+                fullText: fullText.value.trim(),
+                shortText: shortText.value.trim(),
+                image: image.files[0]
+            });
+        }
+
+        this.refs.title.value = this.refs.shortText.value = this.refs.fullText.value = '';
+        this.refs.imagePreview.setAttribute('src', '#');
+
+        alert('Статтю успішно опубліковано!');
+    }
+
+
     render() {
         const SUBMIT_BUTTON_PROPS = {
             className: 'fade-animation',
             type: 'submit',
             value: 'Опублікувати новину',
-            onClick: this.validateArticleForm.bind(this)
+            onClick: this.sendArticle.bind(this)
         };
 
         const IMAGE_INPUT_PROPS = {

@@ -74,8 +74,8 @@ def get_max_collection(array):
             if difference == 1:
                 counter = counter + 1
             elif difference == 2 and quota > 0:
-                counter = counter + 1
-                quota = quota - 1
+                counter += 1
+                quota -= 1
             else:
                 break
 

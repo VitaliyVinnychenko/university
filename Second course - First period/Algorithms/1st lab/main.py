@@ -17,19 +17,19 @@ def insertion_sort(input_array):
     start_time = time.time()
     compares = exchanges = i = 0
 
-    while i < len(input_array):
+    while i < len(input_array): # for
         j = i
-        compares = compares + 1
+        compares += 1
 
-        while j > 0 and input_array[j - 1] > input_array[j]:
+        while j > 0 and input_array[j - 1] >= input_array[j]:
             input_array[j], input_array[j - 1] = input_array[j - 1], input_array[j]
-            compares = compares + 1
-            exchanges = exchanges + 1
-            j = j - 1
+            compares += 1
+            exchanges += 1
+            j -= 1
 
-        i = i + 1
+        i += 1
 
-    work_time = round((time.time() - start_time) * 1000, 2)
+    work_time = round((time.time() - start_time) * 1000, 2) # timeit
     info = (work_time, compares, exchanges)
 
     return input_array, info
@@ -43,32 +43,32 @@ def quicksort(input_array, left, right):
     pivot = input_array[round((left + right) / 2)]
 
     while left < j or i < right:
-        quicksort_compares = quicksort_compares + 1
+        quicksort_compares += 1
 
         while input_array[i] < pivot:
-            quicksort_compares = quicksort_compares + 1
+            quicksort_compares += 1
             i = i + 1
 
         while input_array[j] > pivot:
-            quicksort_compares = quicksort_compares + 1
+            quicksort_compares += 1
             j = j - 1
 
-        quicksort_compares = quicksort_compares + 1
+        quicksort_compares += 1
 
         if i <= j:
-            quicksort_exchanges = quicksort_exchanges + 1
+            quicksort_exchanges += 1
             input_array[i], input_array[j] = input_array[j], input_array[i]
 
-            i = i + 1
-            j = j - 1
+            i += 1
+            j -= 1
 
         else:
+            quicksort_compares += 2
+
             if left < j:
-                quicksort_compares = quicksort_compares + 1
                 quicksort(input_array, left, j)
 
             if i < right:
-                quicksort_compares = quicksort_compares + 1
                 quicksort(input_array, i, right)
 
             return
@@ -87,10 +87,10 @@ def main():
 
         qs_info = (round((time.time() - quicksort_start_time) * 1000, 3), quicksort_compares, quicksort_exchanges)
 
-        print('----------------------------------------------------------------------------')
+        print('------------------------------------------------------------------------------')
         print('| Insertion: {} - time (ms), {} - compares, {} - exchanges'.format(*insertion_info))
         print('| Quicksort: {} - time (ms), {} - compares, {} - exchanges'.format(*qs_info))
-        print('----------------------------------------------------------------------------')
+        print('------------------------------------------------------------------------------')
 
 
 if __name__ == '__main__':

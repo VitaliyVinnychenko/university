@@ -6,6 +6,8 @@ import { addArticle } from '../helpers/news';
 
 export default class Admin extends Component {
 
+    imageUrl = null;
+
     formIsValidated({ title, fullText, shortText, image }) {
         const FIRST_CASE = title.value.trim().length !== 0 && fullText.value.trim().length !== 0;
         const SECOND_CASE = shortText.value.trim().length !== 0 && image.files && image.files[0];
@@ -21,8 +23,8 @@ export default class Admin extends Component {
             let reader = new FileReader();
 
             reader.addEventListener('load', e => {
-                console.log(e);
                 this.refs.imagePreview.setAttribute('src', e.target.result);
+                this.imageUrl = e.target.result;
             });
 
             reader.readAsDataURL(image.files[0]);
@@ -42,18 +44,17 @@ export default class Admin extends Component {
         if (!isOnline()) {
             console.log('N/A');
         } else {
-            console.log(image.files[0]);
-
             addArticle({
                 title: title.value.trim(),
                 fullText: fullText.value.trim(),
                 shortText: shortText.value.trim(),
-                image: image.files[0]
+                image: this.imageUrl
             });
         }
 
         this.refs.title.value = this.refs.shortText.value = this.refs.fullText.value = '';
         this.refs.imagePreview.setAttribute('src', '#');
+        this.imageUrl = null;
 
         alert('Статтю успішно опубліковано!');
     }

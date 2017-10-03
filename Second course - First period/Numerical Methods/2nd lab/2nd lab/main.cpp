@@ -7,7 +7,7 @@ const double EPSILON = 0.0001, STEP = 0.05, A = -2.5;
 
 
 double func(double x) {
-    return 2 * x + sin(x);
+    return x * x - cos(x);
 }
 
 bool stop_iteration(double x, double x_old) {

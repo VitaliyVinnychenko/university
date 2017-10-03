@@ -14,20 +14,18 @@ def get_max_collection(array, zero_number):
     array_length = range(1, len(array))
     max_length = 0
 
-    for i in array:
-        counter = zero_number + 1
+    for i in array_length:
+        counter = zero_number + 2
         quota = zero_number
 
-        for j in array_length:
+        for j in range(i, len(array)):
             difference = array[j] - array[j - 1]
 
             if difference == 1:
-                counter = counter + 1
-            elif difference == 2 and quota > 0:
-                counter = counter + 1
-                quota = quota - 1
-            else:
-                break
+                counter += 1
+            elif quota >= difference and quota > 0:
+                counter += difference - 2
+                quota = quota - difference
 
         if counter > max_length:
             max_length = counter

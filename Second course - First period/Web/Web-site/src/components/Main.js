@@ -1,8 +1,32 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
+import { getAllItems } from '../helpers/index';
+
 
 export default class Main extends Component {
+
+    renderArticles() {
+        let articles = getAllItems('articles');
+
+        if (articles === null) {
+            return null;
+        }
+
+        return (
+            <section className="main--news-container">
+                { articles.items.reverse().slice(0, 2).map(({ title, shortText }) => (
+                    (<div className="main--news-item">
+                        <article>
+                            <div className="main--news-item-title">{ title }</div>
+                            <p>{ shortText }</p>
+                            <Link className="main--news-link">Читати далі...</Link>
+                        </article>
+                    </div>)
+                )) }
+            </section>
+        );
+    }
 
     render() {
         return (
@@ -57,31 +81,7 @@ export default class Main extends Component {
                     </p>
                 </section>
                 <div className="content--title">Останні новини</div>
-                <section className="main--news-container">
-                    <div className="main--news-item">
-                        <article>
-                            <div className="main--news-item-title">НАТАЛІЯ КУБА: “ПРОГРАМА ІНТЕРНЕТ РЕЧЕЙ –
-                            ШАНС НА ЗМІНИ В ОСВІТІ”</div>
-                            <p>Наталія Куба працює керівником відділу навчання і розвитку у SoftServe, входила до
-                            робочої групи, яка розробляла бакалаврську програму Інтернет речей (Internet of things)
-                            у Львівській політехніці. Це перша пілотна програма, над якою працювали ІТ-спеціалісти
-                            спільно з представниками університету. Частково експериментальна. Ми вирішили поговорити
-                            з нею про те, чи виправдала програма попередні сподівання і як проходить навчання
-                            студентів.</p>
-                            <Link className="main--news-link">Читати далі...</Link>
-                        </article>
-                    </div>
-                    <div className="main--news-item">
-                    <article>
-                        <div className="main--news-item-title">ЯК ПРОГРАМУ ІОТ ПРЕЗЕНТУВАЛИ АБІТУРІЄНТАМ</div>
-                        <p>29 квітня у Національному університеті “Львівська політехніка” пройшов День
-                        відкритих дверей бакалаврської програми “Інтернет речей”.
-                        Абітурієнти мали нагоду дізнатися усі деталі про навчання на
-                        інноваційній програмі ІоТ та побачити реальні пристрої створені на базі Інтернету речей.</p>
-                        <Link className="main--news-link">Читати далі...</Link>
-                    </article>
-                    </div>
-                </section>
+                { this.renderArticles() }
                 <Link className="main--news-page-link fade-animation" to="/news">Більше новин</Link>
             </div>
         )

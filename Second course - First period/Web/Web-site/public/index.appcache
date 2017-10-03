@@ -1,15 +1,13 @@
 CACHE MANIFEST
-index.html
-index.min.css
-static/js/bundle.js
-images/sprite.svg
 
+CACHE:
+index.html
+static/js/bundle.js
+index.min.css
 
 NETWORK:
-text.html
-images/1.jpg
-images/2.png
-
+/images/1.jpg
+/images/2.png
 
 FALLBACK:
 / /error.html

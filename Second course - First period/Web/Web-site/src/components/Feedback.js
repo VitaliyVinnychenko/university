@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { addFeedback } from '../helpers/feedback';
-import { isOnline, setZeroBefore, getAllItems, checkStatus } from '../helpers/index';
+import { isOnline, setZeroBefore, getAllItems } from '../helpers/index';
 
 
 export default class Feedback extends Component {
@@ -64,7 +64,7 @@ export default class Feedback extends Component {
             xhr.open('GET', 'http://localhost:8080/api/feedback', false);
             xhr.send();
 
-            if (xhr.status != 200) {
+            if (xhr.status !== 200) {
                 console.error( xhr.status + ': ' + xhr.statusText );
             } else {
                 return this.feedbackListTemplate(JSON.parse(xhr.responseText));

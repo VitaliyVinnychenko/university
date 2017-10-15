@@ -14,7 +14,7 @@ export default class News extends Component {
             xhr.open('GET', 'http://localhost:8080/api/articles', false);
             xhr.send();
 
-            if (xhr.status != 200) {
+            if (xhr.status !== 200) {
                 console.error( xhr.status + ': ' + xhr.statusText );
             } else {
                 return this.articlesTemplate(JSON.parse(xhr.responseText));

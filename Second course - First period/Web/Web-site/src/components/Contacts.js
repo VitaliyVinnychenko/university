@@ -21,7 +21,7 @@ export default class Contacts extends PureComponent {
                     disableDefaultUI: true
                 });
 
-                var marker = new window.google.maps.Marker({
+                new window.google.maps.Marker({
                     position: COORDS,
                     map: map
                 });

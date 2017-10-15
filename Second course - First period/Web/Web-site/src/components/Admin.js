@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { isOnline, checkStatus } from '../helpers/index';
+import { isOnline } from '../helpers/index';
 import { addArticle } from '../helpers/news';
 
 
@@ -39,7 +39,7 @@ export default class Admin extends Component {
             return null;
         }
 
-        const { title, fullText, shortText, image } = this.refs;
+        const { title, fullText, shortText } = this.refs;
         const ARTICLE_DATA = {
             title: title.value.trim(),
             full_text: fullText.value.trim(),
@@ -94,7 +94,7 @@ export default class Admin extends Component {
                                 <span>Додати зображення</span>
                             </label>
                         </div>
-                        <img id="imagePreview" src="#" ref="imagePreview" />
+                        <img id="imagePreview" src="#" alt="" ref="imagePreview" />
                         <textarea ref="shortText" className="short" placeholder="Короткий опис новини"></textarea>
                         <textarea ref="fullText" className="full" placeholder="Довгий опис новини"></textarea>
                         <input { ...SUBMIT_BUTTON_PROPS } />

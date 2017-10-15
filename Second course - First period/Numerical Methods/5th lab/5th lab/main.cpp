@@ -19,8 +19,7 @@ int main(int argc, const char * argv[]) {
     
     integral *= h;
     
-    cout << 2 * integral << endl;
-    cout << f(B) - f(A) << endl << endl;
+    cout << integral << endl;
     
     return 0;
 }

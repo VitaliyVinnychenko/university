@@ -1,6 +1,8 @@
 export function isOnline() {
-    return window.navigator.onLine;
+    return !window.navigator.onLine;
 }
+
+export const USE_LOCAL_STORAGE = false;
 
 export function getAllItems(name) {
     const items = window.localStorage.getItem(name);

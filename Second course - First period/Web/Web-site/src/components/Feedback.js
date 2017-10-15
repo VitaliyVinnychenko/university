@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { findDOMNode, render } from 'react-dom';
 
 import { addFeedback } from '../helpers/feedback';
-import { isOnline, setZeroBefore, getAllItems } from '../helpers/index';
+import LocalDatabase from '../helpers/LocalDatabase';
+import { isOnline, setZeroBefore, getAllItems, USE_LOCAL_STORAGE } from '../helpers/index';
 
 
 export default class Feedback extends Component {
+
+    db = new LocalDatabase('test');
 
     formIsValidated({ name, text }) {
         return name.value.trim().length !== 0 && text.value.trim().length !== 0;
@@ -33,7 +37,11 @@ export default class Feedback extends Component {
                 body: JSON.stringify(FEEDBACK_DATA)
             });
         } else {
-            addFeedback(FEEDBACK_DATA);
+            if (USE_LOCAL_STORAGE) {
+                addFeedback(FEEDBACK_DATA);
+            } else {
+                this.db.insert('feedback', FEEDBACK_DATA);
+            }
         }
 
         this.refs.name.value = this.refs.text.value = '';
@@ -70,13 +78,34 @@ export default class Feedback extends Component {
                 return this.feedbackListTemplate(JSON.parse(xhr.responseText));
             }
         } else {
-            let feedbackList = getAllItems('feedback');
+            if (USE_LOCAL_STORAGE) {
+                let feedbackList = getAllItems('feedback');
 
-            if (feedbackList === null) {
-                return null;
+                if (feedbackList === null) {
+                    return null;
+                }
+
+                return this.feedbackListTemplate(feedbackList.items.reverse());
+            } else {
+                const db = this.db.connectToDatabase();
+
+                db.onerror = err => console.log(err);
+
+                db.onsuccess = e => {
+                    const transaction = e.target.result.transaction(['feedback'], 'readwrite');
+                    const objectStore = transaction.objectStore('feedback');
+
+                    transaction.onerror = error => console.error(error);
+
+                    const request = objectStore.getAll();
+
+                    request.onsuccess = event => {
+                        let result = event.target.result.reverse();
+
+                        render(this.feedbackListTemplate(result), findDOMNode(this.refs.feedbackList));
+                    };
+                };
             }
-
-            return this.feedbackListTemplate(feedbackList.items.reverse());
         }
     }
 
@@ -84,17 +113,17 @@ export default class Feedback extends Component {
     feedbackListTemplate(data) {
         return (
             <section className="feedback--content">
-                { data.map(item => this.renderFeedbackItem(item)) }
+                { data.map((item, index) => this.renderFeedbackItem(item, index)) }
             </section>
         )
     }
 
 
-    renderFeedbackItem({ id, name, text, created_at }) {
+    renderFeedbackItem({ name, text, created_at }, index) {
         created_at = this.dateToString(created_at);
 
         return (
-            <article className="feedback--item" key={ id }>
+            <article className="feedback--item" key={ index }>
                 <div className="feedback--top-panel">
                     <span className="feedback--title">{ name }</span>
                     <span className="feedback--date">{ created_at }</span>
@@ -124,7 +153,7 @@ export default class Feedback extends Component {
                         <input { ...SUBMIT_BUTTON_PROPS } />
                     </div>
                 </div>
-                { this.renderFeedbackList() }
+                <div ref="feedbackList">{ this.renderFeedbackList() }</div>
             </div>
         )
     }

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 
-import { isOnline } from '../helpers/index';
+import { isOnline, USE_LOCAL_STORAGE } from '../helpers/index';
+import LocalDatabase from '../helpers/LocalDatabase';
 import { addArticle } from '../helpers/news';
 
 
 export default class Admin extends Component {
 
     imageUrl = null;
+    db = new LocalDatabase('test');
 
     formIsValidated({ title, fullText, shortText, image }) {
         const FIRST_CASE = title.value.trim().length !== 0 && fullText.value.trim().length !== 0;
@@ -56,7 +58,11 @@ export default class Admin extends Component {
                 body: JSON.stringify(ARTICLE_DATA)
             });
         } else {
-            addArticle(ARTICLE_DATA);
+            if (USE_LOCAL_STORAGE) {
+                addArticle(ARTICLE_DATA);
+            } else {
+                this.db.insert('articles', ARTICLE_DATA);
+            }
         }
 
         this.refs.title.value = this.refs.shortText.value = this.refs.fullText.value = '';

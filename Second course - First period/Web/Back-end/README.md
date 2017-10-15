@@ -21,8 +21,7 @@ cd <project_folder>
 node server.js
 ```
 
-Finally, the server is running!:confetti_ball: :tada: :balloon: :pizza: :tada: :balloon: :confetti_ball: :collision:
+Finally, the server is running! :confetti_ball: :tada: :balloon: :tada: :balloon: :confetti_ball: :tada: :balloon: :tada: :balloon: :confetti_ball: :collision: :confetti_ball:
 
 
-![Result of server startup]
-(https://image.ibb.co/csd0Qm/Screen_Shot_2017_10_15_at_20_21_07.png)
+![Result of server startup](https://image.ibb.co/csd0Qm/Screen_Shot_2017_10_15_at_20_21_07.png)

@@ -17,7 +17,7 @@ After download is finished, go to the Terminal and write down the following comm
 
 
 ```bash
-cd <project_folder>
+cd path/to/project/folder
 node server.js
 ```
 

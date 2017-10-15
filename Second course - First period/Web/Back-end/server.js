@@ -1,9 +1,10 @@
-var express    = require('express');
-var app        = express();
-var bodyParser = require('body-parser');
+let express    = require('express');
+let app        = express();
+let bodyParser = require('body-parser');
+let db = require('./config/database');
 
-var port = process.env.PORT || 8080;
-var router = express.Router();
+let port = process.env.PORT || 8080;
+let router = express.Router();
 
 
 app.use(bodyParser.urlencoded({ extended: true }));

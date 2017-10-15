@@ -78,6 +78,7 @@ router.post('/feedback', (req, res) => {
 
 
 app.use('/api', router);
-
 app.listen(port);
-console.log(`Server is listening ${ port } port!`);
+
+console.log(`Compiled successfully!\n`);
+console.log(`The app is running at http://localhost:${ port }/`);

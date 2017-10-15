@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { isOnline } from '../helpers/index';
+import { isOnline, checkStatus } from '../helpers/index';
 import { addArticle } from '../helpers/news';
 
 
@@ -32,7 +32,7 @@ export default class Admin extends Component {
     }
 
 
-    sendArticle() {
+    postArticle() {
 
         if (!this.formIsValidated(this.refs)) {
             alert('Заповніть усі поля!');
@@ -40,16 +40,23 @@ export default class Admin extends Component {
         }
 
         const { title, fullText, shortText, image } = this.refs;
+        const ARTICLE_DATA = {
+            title: title.value.trim(),
+            full_text: fullText.value.trim(),
+            short_text: shortText.value.trim(),
+            image: this.imageUrl
+        };
 
-        if (!isOnline()) {
-            console.log('N/A');
-        } else {
-            addArticle({
-                title: title.value.trim(),
-                fullText: fullText.value.trim(),
-                shortText: shortText.value.trim(),
-                image: this.imageUrl
+        if (isOnline()) {
+            fetch('http://localhost:8080/api/articles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(ARTICLE_DATA)
             });
+        } else {
+            addArticle(ARTICLE_DATA);
         }
 
         this.refs.title.value = this.refs.shortText.value = this.refs.fullText.value = '';
@@ -65,7 +72,7 @@ export default class Admin extends Component {
             className: 'fade-animation',
             type: 'submit',
             value: 'Опублікувати новину',
-            onClick: this.sendArticle.bind(this)
+            onClick: this.postArticle.bind(this)
         };
 
         const IMAGE_INPUT_PROPS = {

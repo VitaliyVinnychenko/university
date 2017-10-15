@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { addFeedback } from '../helpers/feedback';
-import { isOnline, setZeroBefore, getAllItems } from '../helpers/index';
+import { isOnline, setZeroBefore, getAllItems, checkStatus } from '../helpers/index';
 
 
 export default class Feedback extends Component {
@@ -18,14 +18,22 @@ export default class Feedback extends Component {
         }
 
         const { text, name } = this.refs;
+        const FEEDBACK_DATA = {
+            text: text.value.trim(),
+            name: name.value.trim()
+        };
 
-        if (!isOnline()) {
-            console.log('N/A');
-        } else {
-            addFeedback({
-                text: text.value.trim(),
-                name: name.value.trim()
+
+        if (isOnline()) {
+            fetch('http://localhost:8080/api/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(FEEDBACK_DATA)
             });
+        } else {
+            addFeedback(FEEDBACK_DATA);
         }
 
         this.refs.name.value = this.refs.text.value = '';
@@ -48,30 +56,48 @@ export default class Feedback extends Component {
         return `${ day }.${ month }.${ year } ${ hours }:${ minutes }`;
     }
 
-
     renderFeedbackList() {
-        let feedbackList = getAllItems('feedback');
 
-        if (feedbackList === null) {
-            return null;
+        if (isOnline()) {
+            let xhr = new XMLHttpRequest();
+
+            xhr.open('GET', 'http://localhost:8080/api/feedback', false);
+            xhr.send();
+
+            if (xhr.status != 200) {
+                console.error( xhr.status + ': ' + xhr.statusText );
+            } else {
+                return this.feedbackListTemplate(JSON.parse(xhr.responseText));
+            }
+        } else {
+            let feedbackList = getAllItems('feedback');
+
+            if (feedbackList === null) {
+                return null;
+            }
+
+            return this.feedbackListTemplate(feedbackList.items.reverse());
         }
+    }
 
+
+    feedbackListTemplate(data) {
         return (
             <section className="feedback--content">
-                { feedbackList.items.reverse().map(item => this.renderFeedbackItem(item)) }
+                { data.map(item => this.renderFeedbackItem(item)) }
             </section>
         )
     }
 
 
-    renderFeedbackItem({ name, text, date }) {
-        date = this.dateToString(date);
+    renderFeedbackItem({ id, name, text, created_at }) {
+        created_at = this.dateToString(created_at);
 
         return (
-            <article className="feedback--item">
+            <article className="feedback--item" key={ id }>
                 <div className="feedback--top-panel">
                     <span className="feedback--title">{ name }</span>
-                    <span className="feedback--date">{ date }</span>
+                    <span className="feedback--date">{ created_at }</span>
                 </div>
                 <p>{ text }</p>
             </article>

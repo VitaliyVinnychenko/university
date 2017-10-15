@@ -1,25 +1,43 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-import { getAllItems } from '../helpers/index';
+import { getAllItems, isOnline } from '../helpers/index';
 
 
 export default class Main extends Component {
 
     renderArticles() {
-        let articles = getAllItems('articles');
 
-        if (articles === null) {
-            return null;
+        if (isOnline()) {
+            let xhr = new XMLHttpRequest();
+
+            xhr.open('GET', 'http://localhost:8080/api/articles', false);
+            xhr.send();
+
+            if (xhr.status != 200) {
+                console.error( xhr.status + ': ' + xhr.statusText );
+            } else {
+                return this.articlesTemplate(JSON.parse(xhr.responseText));
+            }
+        } else {
+            let articles = getAllItems('articles');
+
+            if (articles === null) {
+                return null;
+            }
+
+            return this.articlesTemplate(articles.items);
         }
+    }
 
+    articlesTemplate(data) {
         return (
             <section className="main--news-container">
-                { articles.items.reverse().slice(0, 2).map(({ title, shortText }) => (
+                { data.reverse().slice(0, 2).map(({ title, short_text }) => (
                     (<div className="main--news-item">
                         <article>
                             <div className="main--news-item-title">{ title }</div>
-                            <p>{ shortText }</p>
+                            <p>{ short_text }</p>
                             <Link className="main--news-link">Читати далі...</Link>
                         </article>
                     </div>)

@@ -7,7 +7,7 @@ export function addFeedback(feedbackData) {
     }
 
     let feedbackList = getAllItems('feedback'),
-        inputData = { ...feedbackData, date: new Date() };
+        inputData = { ...feedbackData, created_at: new Date() };
 
     if (feedbackList === null) {
         window.localStorage.setItem('feedback', JSON.stringify({ items: [inputData] }));

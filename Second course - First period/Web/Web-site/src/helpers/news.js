@@ -7,7 +7,7 @@ export function addArticle(articleData) {
     }
 
     let articles = getAllItems('articles'),
-        inputData = { ...articleData, date: new Date() };
+        inputData = { ...articleData, created_at: new Date() };
 
     if (articles === null) {
         window.localStorage.setItem('articles', JSON.stringify({ items: [inputData] }));

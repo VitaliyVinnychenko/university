@@ -6,7 +6,7 @@ import Icon from './Icon';
 export default class App extends Component {
 
     onMenuButtonClick() {
-        
+
         if (this.refs.nav.classList.contains('visible')) {
             this.refs.nav.classList.remove('visible');
         } else {
@@ -67,7 +67,7 @@ export default class App extends Component {
                         </nav>
                     </div>
                 </header>
-                <section className="content--wrapper">{ this.props.children }</section>
+                <content className="content--wrapper">{ this.props.children }</content>
                 <footer className="footer--wrapper">
                     <div className="footer--box">
                         <span>Copyright &copy; 2017 &mdash; Vitaliy Vinnychenko</span>

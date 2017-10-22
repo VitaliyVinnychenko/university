@@ -1,5 +1,5 @@
 export function isOnline() {
-    return !window.navigator.onLine;
+    return window.navigator.onLine;
 }
 
 export const USE_LOCAL_STORAGE = false;

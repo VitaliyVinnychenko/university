@@ -1,14 +1,21 @@
 def main():
     graph, begin, end = read_input_data()
     pathes = list(dfs_paths(graph, begin, end))
+
+    if not pathes:
+        return
+
     shortest_path = [0] * 10001
+    result_string = 'Path is '
 
     for path in pathes:
         if len(shortest_path) > len(path):
             shortest_path = path
 
-    print(shortest_path)
+    for node in shortest_path:
+        result_string += f'{node} -> '
 
+    print(result_string[:-4] + '!')
 
 
 def read_input_data():
@@ -34,11 +41,16 @@ def dfs_paths(graph, begin, end):
     stack = [(begin, [begin])]
     while stack:
         (vertex, path) = stack.pop()
-        for next_item in graph[vertex] - set(path):
-            if next_item == end:
-                yield path + [next_item]
-            else:
-                stack.append((next_item, path + [next_item]))
+
+        try:
+            for next_item in graph[vertex] - set(path):
+                if next_item == end:
+                    yield path + [next_item]
+                else:
+                    stack.append((next_item, path + [next_item]))
+        except:
+            print(f'No path found from {begin} to {end}')
+            return -1
 
 
 if __name__ == '__main__':

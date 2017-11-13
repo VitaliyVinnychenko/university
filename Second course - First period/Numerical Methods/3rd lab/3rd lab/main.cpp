@@ -1,152 +1,104 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <time.h>
+#include <cstdio>
+#include <cmath>
+#include <iostream>
+using namespace std;
 
-#define SQR(X) ((X)*(X))
-#define N 2
-#define EPS 0.00001
-
-double f0(double x[N]) { return 4 * SQR(x[0]) + SQR(x[1]) - 4; }
-double f1(double x[N]) { return x[0] - SQR(x[1]) + 1; }
-
-double f00(double x[N]) { return 8 * x[0] + 2 * x[1]; }
-double f01(double x[N]) { return 1 - 2 * x[1]; }
-
-double f10(double x[N]) { return 10; }
-double f11(double x[N]) { return -2; }
-
-double x[N] = {
-    1.5,
-    -1.5
-};
-
-double (*f[N])(double *) = {
-    f0,
-    f1
-};
-
-double (*ff[N][N])(double *) = {
-    { f00, f01 },
-    { f10, f11 }
-};
-
-double fx[N];
-double ffx[N][N];
-double ffx1[N][N];
-
-double nevyazka;
-
-void printX()
-{
-    for (int i = 0; i < N; i++)
-        printf("%10f ", x[i]);
-    printf("\n");
-}
-
-void print(int t)
-{
-    printf("%3i | %12f | ", t, nevyazka);
-    printX();
+void func(double *x, double *f) {
+    f[0] = 4 * x[0] * x[0] + x[1] * x[1] - 4;
+    f[1] = x[0] - x[1] * x[1];
 }
 
 int main(){
-    for (int t = 0; t < 100; t++){
+    double x[2] = {.5, .5}, x_old[2] ={.5, .5}, J[2][2], f[2], x_[2], f_[2];
+    double ee = 1e-8, h = 1e-8;
+    double INVERS[2][2], E[2][2], V[2][2], C[2][2], P[2], X[2], Y[2];
     
-        for (int i = 0; i < N; i++) {
-            fx[i] = f[i](x);
+    bool cord_N;
+    int n = 2, i, j, k;
+    
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            E[i][j] = (i == j) ? 1 : 0;
         }
+    }
+    
+    do {
+        cord_N = false;
+        func(x, f);
         
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                ffx[i][j] = ff[i][j](x);
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < n; j++) {
+                
+                for (k = 0; k < n; k++) {
+                    x_[k] = x[k];
+                }
+                
+                x_[j] = x[j] + h;
+                func(x_, f_);
+                J[i][j] = (f_[i] - f[i]) / h;
             }
         }
-    
-        memset(ffx1, 0, N*N*sizeof(double));
-
-        for (int i = 0; i < N; i++)
-            ffx1[i][i] = 1;
         
-        double  r;
-    
-        for (int i = 0; i < N; i++)
-        {
-            if (ffx[i][i] == 0) {
-                for (int p = i+1; p < N; p++) {
-                    if (ffx[p][i] != 0) {
-                        // если нашли нужную строку, то меняем строки i и p местами
-                        for (int q = 0; q < N; q++) {
-                            int t = ffx[i][q];
-                            ffx[i][q] = ffx[p][q];
-                            ffx[p][q] = t;
-                        }
-                        // поменяли строки? продолжаем алгоритм, прервав цикл
-                        break;
+        for (int b = 0; b < n; b++) {
+            
+            for (i = 0; i < n; i++) {
+                for (j = 0; j < n; j++) {
+                    V[i][j] = J[i][j];
+                    P[i] = E[i][b];
+                }
+            }
+            
+            for (k = 0; k < n; k++) {
+                Y[k] = P[k] / V[k][k];
+                
+                for (i = k + 1; i < n; i++) {
+                    P[i] += -V[i][k] * Y[k];
+                    
+                    for (j = k + 1; j < n; j++) {
+                        C[k][j] = V[k][j] / V[k][k];
+                        V[i][j] += -V[i][k] * C[k][j];
                     }
                 }
             }
-            // если замены нулевого элемента не было
-            if (ffx[i][i] == 0) {
-                printf("[!] Devizion by zero in 'Gauss method'\n");
-                return 1;
-            }
             
-            for (int k = 0; k < N; k++) {
-                if (i == k) continue;
-
-                r = ffx[k][i] / ffx[i][i];
+            X[n - 1] = Y[n - 1];
+            for (i = n - 2; i >= 0; i--) {
+                X[i] = 0;
                 
-                for (int j = 0; j < N; j++) {
-                    ffx[k][j] -= r * ffx[i][j];
-                    ffx1[k][j] -= r * ffx1[i][j];
+                for (j = i + 1; j < n; j++) {
+                    X[i] += C[i][j] * X[j];
                 }
-            }
-        }
-        
-        for (int i = 0; i < N; i++) {
-            r = ffx[i][i];
-            for (int j = 0; j < N; j++) {
-                ffx[i][j] /= r;
-                ffx1[i][j] /= r;
+                X[i] = Y[i] - X[i];
             }
             
-        }
-        
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                double dx = 0;
-                for (int k = 0; k < N; k++)
-                    dx += ffx1[i][k] * ff[k][j](x);
-                printf("%10.2lf\t", fabs(dx));
+            for (i = 0; i < n; i++) {
+                INVERS[i][b] = X[i];
             }
-            printf("\n");
-        }
-        printf("\n\n");
-        
-        for (int i = 0; i < N; i++) {
-            double dx = 0;
-            for (int k = 0; k < N; k++)
-                dx += ffx1[i][k] * fx[k];
-            x[i] = x[i] - dx;
         }
         
-        nevyazka = 0;
-        for (int i = 0; i < N; i++)
-            nevyazka += SQR( f[i](x) );
-        nevyazka = sqrt(nevyazka);
-        
-        print(t);
-        
-        if (nevyazka < EPS) {
-            break;
+        for (i = 0; i < n; i++) {
+            x[i] = 0;
+            
+            for (j = 0; j < n; j++) {
+                x[i] += INVERS[i][j] * f[j];
+            }
+            x[i] = x_old[i] - x[i];
         }
         
-        if (isnan(nevyazka)) {
-            break;
+        for (i = 0; i < n; i++) {
+            cord_N = cord_N || fabs((x[i] - x_old[i]) / x[i] * 100) > ee;
+            x_old[i] = x[i];
         }
+    } while(cord_N);
+    
+    cout << "Result: ";
+    for (i = 0; i < n; i++) {
+        cout << x[i] << ' ';
     }
+    
+    f[0] = 4 * x[0] * x[0] + x[1] * x[1] - 4;
+    f[1] = x[0] - x[1] * x[1];
+    cout << "\nTest: " << f[0] << ' ' << f[1] << "\n\n";
     
     return 0;
 }

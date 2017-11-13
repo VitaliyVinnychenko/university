@@ -5,11 +5,11 @@ using namespace std;
 
 void func(double *x, double *f) {
     f[0] = 4 * x[0] * x[0] + x[1] * x[1] - 4;
-    f[1] = x[0] - x[1] * x[1];
+    f[1] = x[0] - x[1] * x[1] + 2;
 }
 
 int main(){
-    double x[2] = {.5, .5}, x_old[2] ={.5, .5}, J[2][2], f[2], x_[2], f_[2];
+    double x[2] = {1.5, -1.5}, x_old[2] = {1.5, -1.5}, J[2][2], f[2], x_[2], f_[2];
     double ee = 1e-8, h = 1e-8;
     double INVERS[2][2], E[2][2], V[2][2], C[2][2], P[2], X[2], Y[2];
     
@@ -96,8 +96,7 @@ int main(){
         cout << x[i] << ' ';
     }
     
-    f[0] = 4 * x[0] * x[0] + x[1] * x[1] - 4;
-    f[1] = x[0] - x[1] * x[1];
+    func(x, f);
     cout << "\nTest: " << f[0] << ' ' << f[1] << "\n\n";
     
     return 0;

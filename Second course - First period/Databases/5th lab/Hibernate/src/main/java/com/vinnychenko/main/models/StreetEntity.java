@@ -1,12 +1,13 @@
 package com.vinnychenko.main.models;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
-@Table(name = "street", schema = "lab_5", catalog = "")
+@Table(name = "street", catalog = "")
 public class StreetEntity {
-    private int id;
     private String name;
+    private Collection<PharmacyEntity> pharmaciesByStreet;
 
     public StreetEntity(){}
     public StreetEntity(String c){
@@ -14,17 +15,6 @@ public class StreetEntity {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    public int getStreetId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
     @Column(name = "name", nullable = false, length = 50)
     public String getStreetName() {
         return name;
@@ -49,5 +39,14 @@ public class StreetEntity {
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
+    }
+
+    @OneToMany(mappedBy = "street")
+    public Collection<PharmacyEntity> getPharmaciesByStreet() {
+        return pharmaciesByStreet;
+    }
+
+    public void setPharmaciesByStreet(Collection<PharmacyEntity> pharmaciesByStreet) {
+        this.pharmaciesByStreet = pharmaciesByStreet;
     }
 }

@@ -5,7 +5,7 @@ import java.util.*;
 
 
 @Entity
-@Table(name = "medicines", schema = "lab_5", catalog = "")
+@Table(name = "medicines", catalog = "")
 public class MedicineEntity {
     private int id;
     private String name;
@@ -25,7 +25,7 @@ public class MedicineEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "name", nullable = false)
+    @Column(name = "id", nullable = false)
     public int getMedicineId() {
         return id;
     }
@@ -34,7 +34,7 @@ public class MedicineEntity {
         this.id = id;
     }
 
-    @Column(name = "name", nullable = false, length = 150)
+    @Column(name = "medicine_name", nullable = false, length = 150)
     public String getName() {
         return name;
     }
@@ -98,7 +98,7 @@ public class MedicineEntity {
         return result;
     }
 
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany(mappedBy = "medicines")
     public List<PharmacyEntity> getPharmacies() {
         return pharmacies;
     }

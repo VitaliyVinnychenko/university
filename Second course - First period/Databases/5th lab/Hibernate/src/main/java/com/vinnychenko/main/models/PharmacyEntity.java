@@ -5,7 +5,7 @@ import java.util.*;
 
 
 @Entity
-@Table(name = "pharmacy", schema = "lab_5", catalog = "")
+@Table(name = "pharmacy", catalog = "")
 public class PharmacyEntity {
     private int id;
     private String name;
@@ -34,7 +34,7 @@ public class PharmacyEntity {
         this.id = id;
     }
 
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(name = "pharmacy_name", nullable = false, length = 50)
     public String getName() {
         return name;
     }
@@ -90,7 +90,7 @@ public class PharmacyEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "street_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "street", referencedColumnName = "name", nullable = false)
     public StreetEntity getStreet() {
         return street;
     }
@@ -111,5 +111,14 @@ public class PharmacyEntity {
 
     public void setMedicines(List<MedicineEntity> medicines) {
         this.medicines = medicines;
+    }
+
+    public void addMedicineEntity(MedicineEntity medicineEntity){
+        if(!getMedicines().contains(medicineEntity)){
+            getMedicines().add(medicineEntity);
+        }
+        if(!medicineEntity.getPharmacies().contains(this)){
+            medicineEntity.getPharmacies().add(this);
+        }
     }
 }

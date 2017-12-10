@@ -28,7 +28,7 @@ public class Application {
         Session session = getSession();
 
         try {
-            readAllTable(session);
+            addMedicineForPharmacy(session);
 
             System.out.println("\n\nFinish work!");
         } finally {

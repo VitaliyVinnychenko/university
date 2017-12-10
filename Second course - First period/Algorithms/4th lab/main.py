@@ -2,6 +2,8 @@ def main():
     graph, begin, end = read_input_data()
     pathes = list(dfs_paths(graph, begin, end))
 
+    print(graph)
+
     if not pathes:
         return
 
